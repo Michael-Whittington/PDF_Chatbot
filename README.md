@@ -43,7 +43,7 @@ The `def create_service_context()` is a function that creates and configures a c
     - `temperature` - Specifies the randomness of the generated text and ranges from 0-1. A temperature of 0.5 means that the model will generate text that is somewhat diverse, but still coherent and relevant to the context.
     - `model_name` - Specifies the LLM model to use.
     - `openai_api_key` - Provides OpenAI with your key for accessing their API.
-- `service_context` -  
+- `service_context` -  This object creates a new python dataclass, that is built using the previously explained components (`llm_predictor` and `prompt_helper`)
 
 ```python
 def data_ingestion_indexing(directory_path):
