@@ -34,7 +34,9 @@ def create_service_context():
 ```
 The `def create_service_context()` is a function that creates and configures a container on the OpenAI platform. Below is a further breakdown of `create_service_context()` code:
 - `max_input_size` - Sets the maximum size of the user input text that the model will process, before the model shortens it.
-- `num_outputs`
+- `num_outputs` - Sets the maximum number of characters that the model will generate in its response.
+- `max_chunk_overlap` - This parameter is designed to make the application outputs flow better and make sense. It takes the last 20 characters from the previously generated chunk of words and looks to connect it with the next chunk of words.
+- `chunk_size_limit` - Sets the maximum size of a single chunk (generated segment of text that can be combined with other chunks to create a piece of writing that makes sense) of text that the model can generate
 
 
 ```python
