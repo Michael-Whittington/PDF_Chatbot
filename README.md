@@ -45,6 +45,7 @@ The `def create_service_context()` is a function that creates and configures a c
     - `openai_api_key` - Provides OpenAI with your key for accessing their API.
 - `service_context` -  This object creates a new python dataclass, that is built using the previously explained components (`llm_predictor` and `prompt_helper`)
 
+
 ```python
 def data_ingestion_indexing(directory_path):
     #loads data from the specified directory path
@@ -57,7 +58,11 @@ def data_ingestion_indexing(directory_path):
     index.storage_context.persist()
     return index
 ```
-
+The `def data ingestion_indexing()` is a function that is responsible for loading data and then creating an index of that data so that it can be queried. Below is a further breakdown of the code:
+- `documents` -
+- `index` - 
+- `index.storage_context.persist()` -
+- `return index` - 
 ```python
 def data_querying(input_text):
     #rebuild storage context
