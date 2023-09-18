@@ -32,6 +32,10 @@ def create_service_context():
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, prompt_helper=prompt_helper)
     return service_context
 ```
+The `def create_service_context()` is a function that creates and configures a container on the OpenAI platform. Below is a further breakdown of `create_service_context()` code:
+- `max_input_size` - Sets the maximum size of the user input text that the model will process, before the model shortens it.
+- `num_outputs`
+
 
 ```python
 def data_ingestion_indexing(directory_path):
