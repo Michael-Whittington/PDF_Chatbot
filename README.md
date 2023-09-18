@@ -41,8 +41,9 @@ The `def create_service_context()` is a function that creates and configures a c
 - `llm_predictor` - This creates a new object, which acts as a wrapper around the OpenAI API client and allows the use of their LLMs for text generation. The `LLMPredictor` class is also used to integrate GPT-3.5 with LlamaIndex.
     - `llm` - Specifies the LLM model to use for text generation.
     - `temperature` - Specifies the randomness of the generated text and ranges from 0-1. A temperature of 0.5 means that the model will generate text that is somewhat diverse, but still coherent and relevant to the context.
-    - 
-
+    - `model_name` - Specifies the LLM model to use.
+    - `openai_api_key` - Provides OpenAI with your key for accessing their API.
+- `service_context` -  
 
 ```python
 def data_ingestion_indexing(directory_path):
