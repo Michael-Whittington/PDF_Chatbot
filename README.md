@@ -37,6 +37,11 @@ The `def create_service_context()` is a function that creates and configures a c
 - `num_outputs` - Sets the maximum number of characters that the model will generate in its response.
 - `max_chunk_overlap` - This parameter is designed to make the application outputs flow better and make sense. It takes the last 20 characters from the previously generated chunk of words and looks to connect it with the next chunk of words.
 - `chunk_size_limit` - Sets the maximum size of a single chunk (generated segment of text that can be combined with other chunks to create a piece of writing that makes sense) of text that the model can generate
+- `prompt_helper` - This is an object, which uses the `PromptHelper` class to constrain the users input text to the parameters above. This class helps format input prompts for the OpenAI API client.
+- `llm_predictor` - This creates a new object, which acts as a wrapper around the OpenAI API client and allows the use of their LLMs for text generation. The `LLMPredictor` class is also used to integrate GPT-3.5 with LlamaIndex.
+    - `llm` - Specifies the LLM model to use for text generation.
+    - `temperature` - Specifies the randomness of the generated text and ranges from 0-1. A temperature of 0.5 means that the model will generate text that is somewhat diverse, but still coherent and relevant to the context.
+    - 
 
 
 ```python
