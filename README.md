@@ -58,11 +58,11 @@ def data_ingestion_indexing(directory_path):
     index.storage_context.persist()
     return index
 ```
-The `def data ingestion_indexing()` is a function that is responsible for loading data and then creating an index of that data so that it can be queried. Below is a further breakdown of the code:
-- `documents` -
-- `index` - 
-- `index.storage_context.persist()` -
-- `return index` - 
+The `def data_ingestion_indexing()` is a function that is responsible for loading data and then creating an index of that data so that it can be queried. Below is a further breakdown of the code:
+- `documents` - This object leverages the `llama_index` `SimpleDirectoryReader`module to read the contents of a directory and return a list of documents (strings) that represents the contents of each file.
+- `index` - This object creates a new instance of the `GPTVectorStoreIndex` class using a list of documents returned by `SimpleDirectoryReader`. This means that it's taking our `documents`, creating vector representations, and storing them for future querying. Additionally, it passes in the `create_service_context()` so that the `service_context` is properly configured, as it will be used by the index.
+- `index.storage_context.persist()` - This line saves the index to the location described in the code below. The `persist` method writes the index data to that location.
+- `return index` - This line returns the newly created index object so that it can be used later for querying.
 ```python
 def data_querying(input_text):
     #rebuild storage context
@@ -75,6 +75,11 @@ def data_querying(input_text):
     
     return response.response
 ```
+The `def data_querying()` is a function that takes in the users input text, uses the `storage_context` to retrieve an index, and then uses the index to search for an answer to the users input.
+- `storage_context` - This object creates a new instance of a class called `StorageContext` and stores the data in a directory ("./storage"). Basically it uses default module settings and creates a container to hold the data.
+- `index` - This object uses the `load_index_from_storage` function to load our index into our storage container. Additionally, we include the `service_context` argument so that we can interact with the storage system.
+- `response` - This line uses the index to search for the users input text. The `as_query_engine()` method turns the index into a query engine to answer questions. The `query()` method takes the input text and searches the index for a response.
+- `return response.response` - This line returns the result of the users input query.
 
 ```python
 iface = gr.Interface(fn=data_querying,
