@@ -87,6 +87,10 @@ iface = gr.Interface(fn=data_querying,
                      outputs="text",
                      title="ARS Q and A")
 ```
+The `iface` object creates a new GUI interface using `gradio` and titles the interface "ARS Q and A". 
+- `fn` - This explains the function that will be called when the user clicks the "Query" button.
+- `inputs` - This explains the list of input fields the user can fill out (in this case it's just a text box with 7 lines that's labeled "Enter your question").
+- `outputs` - The type of output expected from the `fn` function, which is a string value represented by "text".
 
 ```python
 #passes in data directory
