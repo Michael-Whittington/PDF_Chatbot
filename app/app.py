@@ -11,10 +11,10 @@ def create_service_context():
     #constraint parameters
     max_input_size = 4096
     num_outputs = 512
-    max_chunk_overlap = 20
-    chunk_size_limit = 600
+    #max_chunk_overlap = 20
+    #chunk_size_limit = 600
     #allows the user to explicitly set certain constraint parameters
-    prompt_helper = PromptHelper(max_input_size, num_outputs, max_chunk_overlap, chunk_size_limit=chunk_size_limit)
+    prompt_helper = PromptHelper(max_input_size, num_outputs,  chunk_overlap_ratio=0.2)
     #LLMPredictor is a wrapper class around LangChain's LLMChain that allows easy integration into LlamaIndex
     llm_predictor = LLMPredictor(llm=ChatOpenAI(temperature=0.5, model_name="gpt-3.5-turbo", max_tokens=num_outputs, openai_api_key=openai.api_key))
     #constructs service_context
