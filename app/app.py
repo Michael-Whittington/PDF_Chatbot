@@ -34,7 +34,7 @@ def data_ingestion_indexing(directory_path):
     return index
 def data_querying(input_text):
     #rebuild storage context
-    storage_context = StorageContext.from_defaults(persist_dir="./storage")
+    storage_context = StorageContext.from_defaults(persist_dir="/workspaces/PDF_Chatbot/storage")
     #loads index from storage
     index = load_index_from_storage(storage_context, service_context=create_service_context())
     
@@ -45,7 +45,7 @@ def data_querying(input_text):
 iface = gr.Interface(fn=data_querying,
                      inputs=gr.components.Textbox(lines=7, label="Enter your question"),
                      outputs="text",
-                     title="ARS Q and A")
+                     title="Q and A Bot")
 #passes in data directory
 index = data_ingestion_indexing("data")
 iface.launch(share=False)
