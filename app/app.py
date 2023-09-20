@@ -23,7 +23,7 @@ def create_service_context():
 
 def data_ingestion_indexing(directory_path):
     #loads data from the specified directory path
-    documents = SimpleDirectoryReader(directory_path).load_data()
+    documents = SimpleDirectoryReader(directory_path, filename_as_id=True).load_data()
     
     #when first building the index
     index = GPTVectorStoreIndex.from_documents(
@@ -40,8 +40,10 @@ def data_querying(input_text):
     
     #queries the index with the input text
     response = index.as_query_engine().query(input_text)
-    
-    return response.response
+    doc_id = response.get_formatted_sources()
+    #return response.response
+    return {"response": response.response, "information_origin": doc_id}
+
 iface = gr.Interface(fn=data_querying,
                      inputs=gr.components.Textbox(lines=7, label="Enter your question"),
                      outputs="text",
