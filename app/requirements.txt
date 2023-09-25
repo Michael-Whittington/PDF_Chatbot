@@ -4,3 +4,4 @@ llama_index
 pypdf 
 PyCryptodome 
 gradio
+llama-cpp-python
