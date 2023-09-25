@@ -6,3 +6,4 @@ PyCryptodome
 gradio
 llama-cpp-python
 transformers
+typing
