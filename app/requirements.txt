@@ -5,3 +5,4 @@ pypdf
 PyCryptodome 
 gradio
 llama-cpp-python
+transformers
