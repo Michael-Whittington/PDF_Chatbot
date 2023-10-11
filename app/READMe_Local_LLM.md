@@ -48,7 +48,12 @@ def create_service_context():
     service_context = ServiceContext.from_defaults(llm_predictor=llm_predictor, prompt_helper=prompt_helper)
     return service_context
 ```
-
+The `def create_service_context()` is a function that creates and configures a container on the OpenAI platform. Below is a further breakdown of `create_service_context()` code:
+- `max_input_size` - Sets the maximum size of the user input text that the model will process, before the model shortens it.
+- `num_outputs` - Sets the maximum number of characters that the model will generate in its response.
+- (**chunk_overlap_ratio needs explanation**)`prompt_helper` - This is an object, which uses the `PromptHelper` class to constrain the users input text to the parameters above. This class helps format input prompts for the local LLM.
+- (**Needs Updating**)`llm_predictor` - This creates a new object, which acts as a wrapper around the OpenAI API client and allows the use of their LLMs for text generation. The `LLMPredictor` class is also used to
+- `service_context` -  This object creates a new python dataclass, that is built using the previously explained components (`llm_predictor` and `prompt_helper`)
 ```python
 def data_ingestion_indexing(directory_path):
     documents = SimpleDirectoryReader(directory_path, filename_as_id=True).load_data()
@@ -58,12 +63,17 @@ def data_ingestion_indexing(directory_path):
     index.storage_context.persist()
     return index
 ```
-
+The `def data_ingestion_indexing()` is a function that is responsible for loading data and then creating an index of that data so that it can be queried. Below is a further breakdown of the code:
+- `documents` - This object leverages the `llama_index` `SimpleDirectoryReader` module to read the contents of a directory and return a list of documents (strings) that represents the contents of each file.
+- `index` - This object creates a new instance of the `VectorStoreIndex` class using a list of documents returned by `SimpleDirectoryReader`. This means that it's taking our `documents`, creating vector representations, and storing them for future querying. Additionally, it passes in the `create_service_context()` so that the `service_context` is properly configured, as it will be used by the index.
+- `index.storage_context.persist()` - This line saves the index to the location described in the code below. The `persist` method writes the index data to that location.
+- `return index` - This line returns the newly created index object so that it can be used later for querying.
 ```python
-storage_context = StorageContext.from_defaults(persist_dir="C:\\Users\\M30880\\OneDrive - Noblis\\Documents\\AI Explorers\\R&D\\storage")
+storage_context = StorageContext.from_defaults(persist_dir="ADD_IN_PATH_TO_WHERE_INDEX_WILL_BE")
 index = load_index_from_storage(storage_context, service_context=create_service_context())
 ```
-
+- `storage_context` - This object creates a new instance of a class called `StorageContext` and stores the data in a directory. Basically it uses default module settings and creates a container to hold the data.
+- `index` - This object uses the `load_index_from_storage` function to load our index into our storage container. Additionally, we include the `service_context` argument so that we can interact with the storage system.
 ```python
 def data_querying(input_text):
     input_texts = [q.strip() for q in input_text.split("?") if q.strip()]
@@ -91,7 +101,7 @@ The `iface` object creates a new GUI interface using `gradio` and titles the int
 
 ```python
 #passes in data directory
-index = data_ingestion_indexing("data")
+index = data_ingestion_indexing("ADD_IN_PATH_TO_DOCUMENTS_AND_DATA")
 iface.launch(share=False)
 ```
 
