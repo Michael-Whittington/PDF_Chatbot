@@ -92,15 +92,19 @@ def data_querying(input_text):
     
     return combined_results
 ```
-The `def data_querying(input_text)`  function splits user input into multiple questions and queries the index for each question. It then combines the results into a single output. Below is a further breakdown of the code:
-- 
+The `def data_querying(input_text)` function splits user input into multiple questions and queries the index for each question. It then combines the results into a single output. Below is a further breakdown of the code:
+- `input_texts` - This line takes the input string and splits it into individual questions based on a question mark "?".
+- `ThreadPoolExecutor` - The code uses this to perform concurrent querying, meaning multiple questions can be queried at the same time to speed up the process.
+- `combined_results` - The code takes the list of strings and combines them into a single string.
 ```python
 def query_index(input_text):
     response = index.as_query_engine().query(input_text)
     doc_id = response.get_formatted_sources()
     return {"response": response.response, "information_origin": doc_id}
 ```
-
+The `def query_index(input_text)` function directly interacts with the index to retrieve the response. Below is a further breakdown of the code:
+- `response` - This line creates the query engine and searches the index for a response.
+- `doc_id` - This line fetches the source or origin of the obtained response.
 ```python
 iface = gr.Interface(fn=data_querying,
                      inputs=gr.components.Textbox(lines=7, label="Enter your questions separated by a question mark"),
@@ -117,7 +121,8 @@ The `iface` object creates a new GUI interface using `gradio` and titles the int
 index = data_ingestion_indexing("ADD_IN_PATH_TO_DOCUMENTS_AND_DATA")
 iface.launch(share=False)
 ```
-
+`index` - This line loads and indexes data from a specific directory when the program starts.
+`iface.launch` - This line launches the user interface and allows users to interact with it
 
 
 
