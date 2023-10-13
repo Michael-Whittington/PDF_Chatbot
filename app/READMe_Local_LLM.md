@@ -19,7 +19,7 @@ Run the application using the code below in the terminal (make sure the director
 ```python
 tokenizer = AutoTokenizer.from_pretrained("facebook/opt-iml-max-1.3b")
 ```
-
+This line loads a pretrained tokenizer (`AutoTokenizer`) from the HuggingFace transformers library. The tokenizer will convert text into a format that the model can understand.
 ```python
 class CustomLLM(LLM):
     model_name = OPTForCausalLM.from_pretrained("facebook/opt-iml-max-1.3b")
@@ -38,7 +38,12 @@ class CustomLLM(LLM):
     def _llm_type(self) -> str:
         return "custom"
 ```
-
+This `class Custom(LLM)` section defines a custom Large Language Model (LLM). The class (`CustomLLM`) inherits functionalities from the `LLM` base class. Below is a further breakdown of the code:
+- `model_name` - This line initializes the pretrained LLM ("facebook/opt-iml-max-1.3b"). It leverages the `OPTForCausalLM` model architecture from the HuggingFace Transformers library.
+- `pipeline` - This line creates a text generation pipeline using the locally-loaded model and its corresponding tokenizer.
+- `def _call` - This method takes a text prompt, sends it to the language model for generation, and returns the generated text without including the original prompt. The model's `response` calls on the `pipeline` to generate the response, which is limited to 512 tokens.
+- `def _identifying_params(self)` - This property provides identifying parameters for the custom LLM. It returns a dictionary with a single key-value pair.
+- `def _llm_type(self)` - This property simply defines the LLM as "custom". Which could be useful if we tested other LLMs
 ```python
 def create_service_context():
     max_input_size = 4096
@@ -51,8 +56,8 @@ def create_service_context():
 The `def create_service_context()` is a function that creates and configures a container on the OpenAI platform. Below is a further breakdown of `create_service_context()` code:
 - `max_input_size` - Sets the maximum size of the user input text that the model will process, before the model shortens it.
 - `num_outputs` - Sets the maximum number of characters that the model will generate in its response.
-- (**chunk_overlap_ratio needs explanation**)`prompt_helper` - This is an object, which uses the `PromptHelper` class to constrain the users input text to the parameters above. This class helps format input prompts for the local LLM.
-- (**Needs Updating**)`llm_predictor` - This creates a new object, which acts as a wrapper around the OpenAI API client and allows the use of their LLMs for text generation. The `LLMPredictor` class is also used to
+- `prompt_helper` - This is an object, which uses the `PromptHelper` class to constrain the users input text to the parameters above. Additionally, it incorporates the `chunk_overlap_ratio` which defines how much the outputs overlap when chunking the data. This class helps format input prompts for the local LLM.
+- `llm_predictor` - This creates a predictor object for the custom LLM. `LLMPredictor` acts as a wrapper around the `CustomLLM`.  
 - `service_context` -  This object creates a new python dataclass, that is built using the previously explained components (`llm_predictor` and `prompt_helper`)
 ```python
 def data_ingestion_indexing(directory_path):
@@ -87,12 +92,20 @@ def data_querying(input_text):
     
     return combined_results
 ```
-
+The `def data_querying(input_text)`  function splits user input into multiple questions and queries the index for each question. It then combines the results into a single output. Below is a further breakdown of the code:
+- 
 ```python
 def query_index(input_text):
     response = index.as_query_engine().query(input_text)
     doc_id = response.get_formatted_sources()
     return {"response": response.response, "information_origin": doc_id}
+```
+
+```python
+iface = gr.Interface(fn=data_querying,
+                     inputs=gr.components.Textbox(lines=7, label="Enter your questions separated by a question mark"),
+                     outputs="text",
+                     title="Q and A App")
 ```
 The `iface` object creates a new GUI interface using `gradio` and titles the interface "ARS Q and A". 
 - `fn` - This explains the function that will be called when the user clicks the "Query" button.
